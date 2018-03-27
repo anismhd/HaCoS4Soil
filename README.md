@@ -7,9 +7,9 @@ Various approached available in literature
 
 Let
 
-	$A_s$ - be out-crop ground motion amplitude at free-field
+	A_s - be out-crop ground motion amplitude at free-field
 
-	$A_r$ - be out-crop ground motion amplitude at baserock
+	A_r - be out-crop ground motion amplitude at baserock
 
 ## Approached Based on Hazard Integral Equations
 
