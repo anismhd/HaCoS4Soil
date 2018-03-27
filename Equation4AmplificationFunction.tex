@@ -1,0 +1,22 @@
+\documentclass[12pt,a4paper,final]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{makeidx}
+\usepackage{graphicx}
+\usepackage{lmodern}
+\usepackage{kpfonts}
+\usepackage[left=0.5cm,right=0.5cm,top=0.5cm,bottom=0.5cm, landscape]{geometry}
+\author{Anis Mohammed Vengasseri}
+\begin{document}
+\begin{align*}
+	\log (Amp) = C_0 + \sum_{i=1}^{n} C_i PGA_{ref}^i + D_i A_r^i + E_i M^i
+					+ CL_i (\log (PGA_{ref}+CL_0))^i + DL_i (\log (A^r+DL_0))^i + EL_i (\log (M+EL_0))^i
+\end{align*}
+
+\begin{align*}
+	\sigma = SC_0 + \sum_{i=1}^{n} SC_i PGA_{ref}^i + SD_i A_r^i + SE_i M^i
+					+ SCL_i (\log (PGA_{ref}+SCL_0))^i + SDL_i (\log (A_r+SDL_0))^i + SEL_i (\log (M+SEL_0))^i
+\end{align*}
+\end{document}
