@@ -83,6 +83,7 @@ class AmplificationFunction():
 				sigma = sigma + SDL[i]*log(Ar+SDL[0])**i
 		return lnMedian, sigma
 	def generate_figure():
+		Ar = 0
 		pass
 #		elif self.type == 'continuous':
 #			N = [size(self.C,0),size(self.CL,0),size(self.DL,0),size(self.SC,0),size(self.SCL,0),size(self.SDL,0)]
