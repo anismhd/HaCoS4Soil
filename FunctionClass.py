@@ -137,10 +137,15 @@ def tests(**para):
 	f.write('## Testing of ContinuousPolynomialFunction Class\n\n')
 	f.write('### Linear Function y=mx+c\n\n')
 	f.write('\t\tConsider m = 2, c = 5')
-	TES1 = ContinuousPolynomialFunction(C=[5,2])
+	Fun1 = ContinuousPolynomialFunction(C=[5,2])
 	f.write('\t\tFunction usage, Fun1 = ContinuousPolynomialFunction(C=[5,2])\n\n')
-	f.write('\t|{0:3s}|{1:10s}|{2:10s}|{3:10s}|'.format('NO','X value','Y value', 'Cmptd Y\n'))
-	f.write('\t|{0:3s}|{1:10s}|{2:10s}|{3:10s}|'.format(' - ',' ------- ',' ------- ', ' ------ \n'))
+	f.write('\t|{0:3s}|{1:10s}|{2:10s}|{3:10s}|\n'.format('NO','X value','Y value', 'Cmptd Y'))
+	f.write('\t|{0:3s}|{1:10s}|{2:10s}|{3:10s}|\n'.format(' - ',' ------- ',' ------- ', ' ------'))
+	xx = linspace(-1,4,6)
+	yy = [2*x+5 for x in xx]
+	for i in range(6):
+		f.write('\t|{0:3d}|{1:10.4f}|{2:10.4f}|{3:10.4f}|\n'.format(i+1,xx[i],yy[i], Fun1.evaluate(x=xx[i]) ))
+
 if __name__ == '__main__':
 	tests(filename='FunctionClassTest.md')
 #	BiLinear = PiecewiseContinousPolynomialFunction(2,[1],C1=[0,1],C2=[1])
