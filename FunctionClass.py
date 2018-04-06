@@ -135,11 +135,12 @@ def tests(**para):
 	f.write('# Test of Function Class\n\n')
 	# Testing of Continuous polynomial function
 	f.write('## Testing of ContinuousPolynomialFunction Class\n\n')
-	f.write('## Linear Function y=mx+c\n\n')
+	f.write('### Linear Function y=mx+c\n\n')
 	f.write('\t\tConsider m = 2, c = 5')
 	TES1 = ContinuousPolynomialFunction(C=[5,2])
-	f.write('\t\tFunction usage, __TES1 = ContinuousPolynomialFunction(C=[5,2])__')
-
+	f.write('\t\tFunction usage, Fun1 = ContinuousPolynomialFunction(C=[5,2])\n\n')
+	f.write('\t|{0:3s}|{1:10s}|{2:10s}|{3:10s}|'.format('NO','X value','Y value', 'Cmptd Y\n'))
+	f.write('\t|{0:3s}|{1:10s}|{2:10s}|{3:10s}|'.format(' - ',' ------- ',' ------- ', ' ------ \n'))
 if __name__ == '__main__':
 	tests(filename='FunctionClassTest.md')
 #	BiLinear = PiecewiseContinousPolynomialFunction(2,[1],C1=[0,1],C2=[1])
