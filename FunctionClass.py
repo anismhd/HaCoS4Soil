@@ -66,8 +66,9 @@ class ContinuousPolynomialFunction():
 		if not z:
 			z = 0
 		yy = array([self.evaluate(x=x,y=y,z=z) for x in xx])
+		fig = plt.figure()
 		plt.plot(xx,yy)
-		plt.show()
+		return fig
 class PiecewiseContinousPolynomialFunction(ContinuousPolynomialFunction):
 	"""docstring for Piece wise ContinousPolynomialFunction"""
 	def __init__(self, num_pieces, limits, **para):
@@ -123,6 +124,11 @@ class PiecewiseContinousPolynomialFunction(ContinuousPolynomialFunction):
 			plt.plot(xx,yy,c=color)
 		return fig
 
+class UserDefinedFunction():
+	"""docstring for UserDefinedFunction"""
+	def __init__(self, **para):
+		if 
+
 def tests(**para):
 	if para.get('test_floder'):
 		loc = para.get('test_floder')
@@ -135,6 +141,7 @@ def tests(**para):
 	f.write('# Test of Function Class\n\n')
 	# Testing of Continuous polynomial function
 	f.write('## Testing of ContinuousPolynomialFunction Class\n\n')
+	# Test 1
 	f.write('### Linear Function y=mx+c\n\n')
 	f.write('\t\tConsider m = 2, c = 5')
 	Fun1 = ContinuousPolynomialFunction(C=[5,2])
@@ -145,6 +152,46 @@ def tests(**para):
 	yy = [2*x+5 for x in xx]
 	for i in range(6):
 		f.write('|{0:3d}|{1:10.4f}|{2:10.4f}|{3:10.4f}|\n'.format(i+1,xx[i],yy[i], Fun1.evaluate(x=xx[i]) ))
+	fig = Fun1.generate_figure(x_low=-1,x_up=4,n=6)
+	fig.savefig(loc+'ContinuousPolynomialFunction_TF1.png')
+	f.write('\n[Test 1]({0:s})\n\n'.format(loc+'ContinuousPolynomialFunction_TF1.png'))
+	# Test 2
+	f.write('### Bi-Linear Function \n\n')
+	f.write('\ty = 2x if x<= 1, otherwise = x + 1\n')
+	Fun2 = PiecewiseContinousPolynomialFunction(num_pieces=2, limits=[1],C1=[0,2],C2=[1,1])
+	f.write('\t\tFun2 = PiecewiseContinousPolynomialFunction(num_pieces=2, limits=[1],C1=[0,2],C2=[1,1])\n\n')
+	f.write('|{0:3s}|{1:10s}|{2:10s}|{3:10s}|\n'.format('NO','X value','Y value', 'Cmptd Y'))
+	f.write('|{0:3s}|{1:10s}|{2:10s}|{3:10s}|\n'.format(' - ',' ------- ',' ------- ', ' ------'))
+	yy = [2*x if x<=1.0 else 1.0+x for x in xx]
+	for i in range(6):
+		f.write('|{0:3d}|{1:10.4f}|{2:10.4f}|{3:10.4f}|\n'.format(i+1,xx[i],yy[i], Fun2.evaluate(x=xx[i]) ))
+	fig = Fun2.generate_figure(x_low=-1,x_up=4,n=6)
+	fig.savefig(loc+'ContinuousPolynomialFunction_TF2.png')
+	f.write('\n[Test 2]({0:s})\n\n'.format(loc+'ContinuousPolynomialFunction_TF2.png'))
+	# Test 3 
+	f.write('### Tri-Linear Function \n\n')
+	Fun3 = PiecewiseContinousPolynomialFunction(num_pieces=3, limits=[2,3],C1=[0,0.5],C2=[-1,1],C3=[8,-2])
+	f.write('\t\tFun3 = PiecewiseContinousPolynomialFunction(num_pieces=3, limits=[2,3],C1=[0,0.5],C2=[-1,1],C3=[8,-3])\n\n')
+	f.write('|{0:3s}|{1:10s}|{2:10s}|{3:10s}|\n'.format('NO','X value','Y value', 'Cmptd Y'))
+	f.write('|{0:3s}|{1:10s}|{2:10s}|{3:10s}|\n'.format(' - ',' ------- ',' ------- ', ' ------'))
+	yy = [0.5*x if x<=1.0 else x-1 if x<=3 else -2*x+8 for x in xx]
+	for i in range(6):
+		f.write('|{0:3d}|{1:10.4f}|{2:10.4f}|{3:10.4f}|\n'.format(i+1,xx[i],yy[i], Fun3.evaluate(x=xx[i]) ))
+	fig = Fun3.generate_figure(x_low=-1,x_up=4,n=6)
+	fig.savefig(loc+'ContinuousPolynomialFunction_TF3.png')
+	f.write('\n[Test 2]({0:s})\n\n'.format(loc+'ContinuousPolynomialFunction_TF3.png'))
+	# Test 4
+	f.write('### Linear-Quadratic Function')
+	Fun4 = PiecewiseContinousPolynomialFunction(num_pieces=2, limits=[1],C1=[0,1.0],C2=[3,-1,-1])
+	f.write('\t\tFun4 = PiecewiseContinousPolynomialFunction(num_pieces=2, limits=[1],C1=[0,1.0],C2=[3,-1,-1])\n\n')
+	f.write('|{0:3s}|{1:10s}|{2:10s}|{3:10s}|\n'.format('NO','X value','Y value', 'Cmptd Y'))
+	f.write('|{0:3s}|{1:10s}|{2:10s}|{3:10s}|\n'.format(' - ',' ------- ',' ------- ', ' ------'))
+	yy = [x if x<=1.0 else -x**2-x+3 for x in xx]
+	for i in range(6):
+		f.write('|{0:3d}|{1:10.4f}|{2:10.4f}|{3:10.4f}|\n'.format(i+1,xx[i],yy[i], Fun4.evaluate(x=xx[i]) ))
+	fig = Fun4.generate_figure(x_low=-1,x_up=4,n=101)
+	fig.savefig(loc+'ContinuousPolynomialFunction_TF4.png')
+	f.write('\n[Test 2]({0:s})\n\n'.format(loc+'ContinuousPolynomialFunction_TF4.png'))
 
 if __name__ == '__main__':
 	tests(filename='FunctionClassTest.md')
