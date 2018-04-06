@@ -3,6 +3,8 @@ AAA
 '''
 from numpy import linspace,zeros,log, array
 import matplotlib.pyplot as plt
+from bisect import bisect
+from sys import stdout
 
 class ContinuousPolynomialFunction():
 	"""Continuous Polynomial Function of
@@ -42,7 +44,6 @@ class ContinuousPolynomialFunction():
 		if not z:
 			z = 0
 		for i in range(1,max(self.N)):
-			# Median
 			if i <= self.N[0]-1:
 				A = A + self.C[i]*x**i
 			if i <= self.N[3]-1:
@@ -74,12 +75,12 @@ class PiecewiseContinousPolynomialFunction(ContinuousPolynomialFunction):
 		self.pieces = {}
 		self.limits = limits
 		for piece in range(num_pieces):
-			self.pieces[piece] = super().__init__(C=para.get('C{0:d}'.format(piece+1)),\
-												  D=para.get('C{0:d}'.format(piece+1)),\
-												  E=para.get('C{0:d}'.format(piece+1)),\
-												  CL=para.get('C{0:d}'.format(piece+1)),\
-												  DL=para.get('C{0:d}'.format(piece+1)),\
-												  EL=para.get('C{0:d}'.format(piece+1)))
+			self.pieces[piece] = ContinuousPolynomialFunction(C=para.get('C{0:d}'.format(piece+1)),\
+												  D=para.get('D{0:d}'.format(piece+1)),\
+												  E=para.get('E{0:d}'.format(piece+1)),\
+												  CL=para.get('CL{0:d}'.format(piece+1)),\
+												  DL=para.get('DL{0:d}'.format(piece+1)),\
+												  EL=para.get('EL{0:d}'.format(piece+1)))
 	def evaluate(self,**para):
 		x = para.get('x')
 		if not x:
@@ -90,18 +91,56 @@ class PiecewiseContinousPolynomialFunction(ContinuousPolynomialFunction):
 		z = para.get('z')
 		if not z:
 			z = 0
-		for i,limit in enumerate(self.limits):
-			if x <= limit:
-				return self.pieces[i].evaluate(x=x, y=y, z=z)
-				break
-	def generate_figure(self, x_low, x_up,y,z, n = 101):
-		pass
+		return self.pieces[self.find_interval(x)].evaluate(x=x, y=y, z=z)
 
-def tests():
-	pass
+	def find_interval(self,x):
+		return bisect(self.limits,x)
+
+	def generate_figure(self, x_low, x_up, n = 101,color='r', **para):
+		y = para.get('y')
+		if not y:
+			y = 0
+		z = para.get('z')
+		if not z:
+			z = 0
+		fig = plt.figure()
+		i1 = self.find_interval(x_low)
+		i2 = self.find_interval(x_up)
+		if (i1 == 0) and (i2 == len(self.limits)):
+			new_limits = [x_low] + self.limits + [x_up]
+		elif i1 == 0:
+			new_limits = [x_low] + self.limits[:i2] + [x_up]
+		elif i2 == len(self.limits):
+			new_limits = [x_low] + self.limits[i1:] + [x_up]
+		else:
+			new_limits = [x_low] + self.limits[i1:i2] + [x_up]
+		for i in range(len(new_limits)-1):
+			if abs(new_limits[i]-new_limits[i+1]) == 0:
+				continue
+			else:
+				xx = linspace(new_limits[i],new_limits[i+1],n)
+				yy = array([self.evaluate(x=x,y=y,z=z) for x in xx])
+			plt.plot(xx,yy,c=color)
+		return fig
+
+def tests(**para):
+	if para.get('test_floder'):
+		loc = para.get('test_floder')
+	else:
+		loc = './tests/'
+	if para.get('filename'):
+		f = open(loc+para.get('filename'), 'w')
+	else:
+		f = stdout
+	f.write('# Test of Function Class\n\n')
+	# Testing of Continuous polynomial function
+	f.write('## Testing of ContinuousPolynomialFunction Class\n\n')
+	f.write('## Linear Function y=mx+c\n\n')
+	f.write('\t\tConsider m = 2, c = 5')
+	TES1 = ContinuousPolynomialFunction(C=[5,2])
+	f.write('\t\tFunction usage, __TES1 = ContinuousPolynomialFunction(C=[5,2])__')
 
 if __name__ == '__main__':
-	print "This is a class for Continuous Polynomial Function"
-	print "Test 1: Linear function A = 2x - 2"
-	Linear = ContinuousPolynomialFunction(C=[-2,2])
-	Linear.generate_figure(x_low=-3,x_up=10)
+	tests(filename='FunctionClassTest.md')
+#	BiLinear = PiecewiseContinousPolynomialFunction(2,[1],C1=[0,1],C2=[1])
+#	BiLinear.generate_figure(x_low=0,x_up=10)
